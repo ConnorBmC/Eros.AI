@@ -11,6 +11,11 @@
         "src": "/(.*)",
         "dest": "app.py"
       }
+    ],
+    "ignore": [
+      "tests",
+      "docs",
+      "path/to/large/files"
     ]
   }
   

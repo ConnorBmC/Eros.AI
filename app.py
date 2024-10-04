@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import sqlite3
+import requests  # Only include if you are making requests
 
 app = Flask(__name__)
 
@@ -18,7 +19,7 @@ def home():
 @app.route('/ask', methods=['POST'])
 def ask():
     user_input = request.form['message']
-    response = get_response(user_input)  # Use get_response to get the answer
+    response = get_response(user_input)
     return jsonify(response=response)
 
 if __name__ == '__main__':
