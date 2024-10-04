@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eros AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#askButton').click(function() {
+                const userQuery = $('#queryInput').val().trim(); // Trim whitespace
+                if (userQuery === '') {
+                    return; // Prevent empty queries
+                }
+                $.post('/ask', { message: userQuery }, function(data) {
+                    $('#response').append(`<p><strong>You:</strong> ${userQuery}</p>`);
+                    $('#response').append(`<p><strong>Eros:</strong> ${data.response}</p>`);
+                    $('#queryInput').val(''); // Clear the input after asking
+                    $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight); // Auto-scroll to the bottom
+                }).fail(function() {
+                    $('#response').append(`<p><strong>Eros:</strong> An error occurred. Please try again.</p>`);
+                    $('#chatContainer').scrollTop($('#chatContainer')[0].scrollHeight); // Auto-scroll to the bottom
+                });
+            });
+        });
+
+        function acceptPopup() {
+            closePopup(); // Close the popup
+            // You can add any additional actions here if needed
+        }
+
+        function closePopup() {
+            $('#overlay').hide();
+            $('#popup').hide();
+        }
+    </script>
+    <style>
+        /* Basic styles for layout */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            margin: 20px;
+        }
+        #leftPanel {
+            width: 60%;
+            margin-right: 20px;
+        }
+        #rightPanel {
+            width: 40%;
+            border-left: 2px solid #ccc;
+            padding-left: 20px;
+        }
+        #queryInput {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        #askButton {
+            padding: 10px;
+        }
+        #response {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #chatContainer {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+        }
+        /* Popup Styles */
+        #popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 2px solid #444;
+            padding: 20px;
+            z-index: 1000;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div id="leftPanel">
+        <h1>Welcome to Eros AI</h1>
+        
+        <!-- Chat Container -->
+        <div id="chatContainer">
+            <div id="response"></div>
+        </div>
+
+        <input type="text" id="queryInput" placeholder="Ask something...">
+        <button id="askButton">Ask</button>
+    </div>
+
+    <div id="rightPanel">
+        <h2>Itinerary</h2>
+        <p>This section will be used for itinerary details later.</p>
+    </div>
+
+    <!-- Popup Code -->
+    <div id="overlay"></div>
+    <div id="popup">
+        <h2>Welcome to Eros Travel Bot!</h2>
+        <p>Click the button below to proceed.</p>
+        <button onclick="acceptPopup()">Accept</button>
+    </div>
+
+    <script>
+        function showPopup() {
+            $('#overlay').show();
+            $('#popup').show();
+        }
+
+        // Show the popup on page load
+        window.onload = showPopup;
+    </script>
+</body>
+</html>
