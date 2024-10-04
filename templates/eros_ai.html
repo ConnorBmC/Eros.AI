@@ -40,21 +40,28 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column; /* Stack elements vertically */
             margin: 20px;
         }
-        #leftPanel {
-            width: 60%;
-            margin-right: 20px;
-        }
-        #rightPanel {
-            width: 40%;
-            border-left: 2px solid #ccc;
-            padding-left: 20px;
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row; /* Switch to horizontal layout on larger screens */
+            }
+            #leftPanel {
+                width: 60%;
+                margin-right: 20px;
+            }
+            #rightPanel {
+                width: 40%;
+                border-left: 2px solid #ccc;
+                padding-left: 20px;
+            }
         }
         #queryInput {
             width: 70%;
             padding: 10px;
             margin-right: 10px;
+            max-width: 300px; /* Limit max width for smaller screens */
         }
         #askButton {
             padding: 10px;

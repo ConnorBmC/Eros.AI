@@ -1,0 +1,12 @@
+# Ignore test and documentation directories
+tests/
+docs/
+
+# Ignore large files
+large_files/
+*.pyc
+__pycache__/
+
+# Ignore virtual environment
+.venv/
+
